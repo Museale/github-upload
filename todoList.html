@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+  <head>                                                                  <!-- Meta information in HTML --> 
+     <title>Practical Javascript</title>
+  </head>
+  <body>
+      <div id="clickables">
+         <button id="toggleAll" class="toggle" type="button">Toggle All</button> 
+         <button id="addButton" class="add" type="button">Add</button>
+         <input id="addInput" class="add" type="text" placeholder="New Todo" style="text-align: center;">
+    </div>
+
+    <ul id="todos-ul">                      <!--Parent element-->
+      <!-- <li>First</li>                          Child elements-->
+    </ul>
+  
+     <script>   
+         //Javascript code 
+        var todos = [
+            {todoText: 'item 1', completed: false},
+            {todoText: 'item 2', completed: false},
+            {todoText: 'item 3', completed: false}            
+            ];
+            displayTodos(); 
+
+           function add() {
+               var initialTodo = addInput.value;
+               todos.push({todoText: initialTodo, completed: false});
+               addInput.value = '';
+               displayTodos();
+           }
+
+        function edit(event) {
+            var position = event.currentTarget.id.split('-')[1];
+            var newTodoText = '';
+            todos[position].todoText = window.prompt(newTodoText);
+            if (newTodoText = '' | window.prompt == false) {
+                newTodoText = todos[position];
+            }  {
+
+            }
+            displayTodos();
+        }
+
+        function remove(event) {
+            var position = event.currentTarget.id.split('-')[1];
+
+            todos.splice(position, 1);
+            displayTodos();
+        } 
+ 
+         function toggle(event) {
+            var position = event.currentTarget.id.split('-')[1];;
+            if (todos[position].completed === false) {
+                todos[position].completed = true;
+            } else {
+                todos[position].completed = false;
+            }
+            displayTodos();
+        }
+
+        function displayTodos() {
+            var todosUl = document.getElementById('todos-ul');
+            todosUl.innerHTML = '';
+
+            for (var i = 0; i < todos.length; i++) {
+                var todoLi = document.createElement('li');  
+               
+
+                if (todos[i].completed === true) { 
+                    todoLi.innerText = '[X] ' + todos[i].todoText;
+                   
+                } else {
+                    todoLi.innerText = '[ ] '+ ' ' + todos[i].todoText;
+                }
+                 
+                var removeButton = document.createElement('button');
+                removeButton.innerText = 'Delete';
+                removeButton.addEventListener('click', remove);
+                removeButton.id = 'remove-' + i;
+
+                var toggleButton = document.createElement('button');
+                toggleButton.innerText = 'Toggle';
+                toggleButton.addEventListener('click', toggle);
+                toggleButton.id = 'toggle-' + i;
+
+                var editButton = document.createElement('button');
+                editButton.innerText = 'Edit';
+                editButton.addEventListener('click', edit);
+                editButton.id = 'edit-' + i;
+
+            
+
+                todoLi.appendChild(toggleButton);
+                todoLi.appendChild(editButton);
+                todoLi.appendChild(removeButton);
+               
+                todosUl.appendChild(todoLi); 
+                }
+            
+        }
+
+        function toggleAll() {
+            var completedTodos = 0;                                             // variable for completed todos
+
+             for (var i = 0; i < todos.length; i++) {                        
+              if  (todos[i].completed === true) {                               // Check if completed === true
+                  completedTodos++;                                             // Incremenet variable completedTodos
+                  }
+             }
+                if (completedTodos === todos.length) {                          // if everything is true
+                    for (var i = 0; i < todos.length; i++) {                      
+                    todos[i].completed = false;                                 // change everything to false
+                    } 
+                }
+                else {
+                    for (var i = 0; i < todos.length; i++) {                    // else
+                    todos[i].completed = true;                                  //change everything to true
+                    }
+                }
+            
+            displayTodos();
+        }
+         
+            var addTodosButton = document.getElementById('addButton');
+            var addInput = document.getElementById('addInput');
+            addTodosButton.addEventListener('click', add); 
+            
+            var toggleAllButton = document.getElementById('toggleAll');
+            toggleAllButton.addEventListener('click', toggleAll);
+            
+
+  </script>
+  </body>
+</html>
